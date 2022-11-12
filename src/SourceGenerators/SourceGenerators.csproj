@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+      <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.1" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <None Include="$(OutputPath)\SourceGeneratorsAttributes.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Templates\**\*.cs" />
+        <EmbeddedResource Include="..\SourceGeneratorsAttributes\*.cs" Link="Templates\Attributes\%(Filename)%(Extension)" />
+        <None Include="$(OutputPath)\Microsoft.AspNetCore.Mvc.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+        <Compile Include="..\SourceGeneratorsAttributes\*.cs" />
+    </ItemGroup>
+</Project>
